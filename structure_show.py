@@ -21,7 +21,7 @@ def structure_checker(x, n=0):
         return type_name
 
 def counter(iterable, expression, n):
-    l = []
+    has = set()
     d = {}
     get_key = lambda x: expression(x, n)
 
@@ -29,13 +29,13 @@ def counter(iterable, expression, n):
         d[get_key(item)] = d.get(get_key(item), 0) + 1
     for k, v in d.items():
         v = str(v) + ' ' if v > 1 else ''
-        l.append(f'{v}{k}')
+        has.add(f'{v}{k}')
 
-    if len(l) > 1:
+    if len(has) > 1:
         sep = lambda x:'\n' + '    ' * x
-        return '(' + sep(n) + (',' + sep(n)).join(l) + sep(n - 1) + ')'
+        return '(' + sep(n) + (',' + sep(n)).join(has) + sep(n - 1) + ')'
     else:
-        return l[0]
+        return has.pop()
 
 def structure_show(*args):
     s = structure_checker(args, -1)
@@ -60,48 +60,47 @@ if __name__ == '__main__':
 	structure_show({(1, ), (2, ), 1, 2, '1', 3}, {(1, ), (2, ), 1, 2, 3, '2'})
 	print('\ncase 7\n')
 	structure_show({(0, 'z'): ['a', [len, str]], (1, '2'): ['', [eval, bool]]})
+	print('\ncase 8\n')
+	structure_show([[1, 'a'], ['d', 2]])
 	
 '''
 case 1
 
-int,
-NoneType,
-str,
-bool,
 tuple of int,
+str,
+NoneType,
+bool,
 tuple of nothing,
-tuple of 2 tuple of nothing
+tuple of 2 tuple of nothing,
+int
 
 case 2
 
-2 bool,
-float,
 2 int,
+list of nothing,
+float,
+dict of 2 int -> int,
 str,
+2 bool,
 list of (
-    2 float,
-    int,
     tuple of (
         str,
         builtin_function_or_method
-    )
-),
-list of nothing,
-dict of 2 int -> list of (
-        str,
-        int
-    )
+    ),
+    int,
+    2 float
+)
 
 case 3
 
 list of (
-    int,
     dict of (
-        2 str -> int,
-        int -> bool,
         bool -> NoneType,
-        str -> bool
-    )
+        str -> bool,
+        int -> bool,
+        2 str -> int
+    ),
+    int
 ),
 2 dict of nothing
 
@@ -112,30 +111,37 @@ nothing
 case 5
 
 list of 2 dict of (
-        2 tuple of 2 int -> int,
         tuple of int -> int,
-        tuple of nothing -> int
+        tuple of nothing -> int,
+        2 tuple of 2 int -> int
     )
 
 case 6
 
 2 set of (
+    str,
     3 int,
-    2 tuple of int,
-    str
+    2 tuple of int
 )
 
 case 7
 
 dict of 2 tuple of (
-        int,
-        str
+        str,
+        int
     ) -> list of (
         str,
         list of (
-            builtin_function_or_method,
-            type
+            type,
+            builtin_function_or_method
         )
+    )
+
+case 8
+
+list of 2 list of (
+        str,
+        int
     )
 '''
     
