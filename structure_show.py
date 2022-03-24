@@ -1,3 +1,7 @@
+'''
+Copyright 2022 Ewigkeit02
+License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
+'''
 def structure_checker(x, n=0):
     type_name = type(x).__name__
 
